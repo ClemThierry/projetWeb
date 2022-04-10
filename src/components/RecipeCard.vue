@@ -1,18 +1,17 @@
 <template>
-  <div class="recipe-card">
-    <a href="#">
+  <div class="recipe-card" RecipeId="recipeId">
           <img v-bind:src="pictureUrl" class="property-image" alt="...">
-</a>
+
     <div class="property-description">
       <h5> {{label}} </h5>
       <!-- <p>Lorem Ipsum Dipsum hortata. Mixcall Horcho. Mixwell Chingo. More Bingo. Lorem Ipum doth be hard.</p> -->
       <p class="calories">{{roundCalories}} kcal</p>
     </div>
-    <a href="#">
+
       <p class="property-social-icons">
         ->
       </p>
-    </a>
+
     <!-- <p class="calories">{{roundCalories}} kcal</p> -->
   </div>
 
@@ -22,6 +21,7 @@
 export default {
   name: 'RecipeCard',
   props: {
+    recipeId : {type : String, required : true},
     label : {type : String,  required: true},
     pictureUrl: {type: String, default:"https://www.edamam.com/web-img/b4b/b4b3aead4d39f0871a1843aa313ab354.jpg"},
     calories : {type : Number, required: true}

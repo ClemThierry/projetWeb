@@ -56,6 +56,12 @@ img{
   max-height: 50vh;
 }
 
+@media screen and (max-width: 880px) {
+  img {
+    display: none;
+  }
+}
+
 .conteneur-form{
   display: flex;
   flex-wrap: wrap;

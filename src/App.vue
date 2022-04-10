@@ -136,8 +136,8 @@ svg{
 	top:1px;
 }
 
-p legend label{
+/* p legend label{
  font-size: 2em;
-}
+} */
 
 </style>
