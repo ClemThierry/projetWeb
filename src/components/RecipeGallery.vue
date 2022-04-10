@@ -17,6 +17,7 @@
         @click.native="selectOneRecipe(recipes.recipe.uri)"
         />
       </div>
+      <button class="myButton" v-if="isNextPage" @click="nextPage">Next page</button>
       <!-- <button @click="openRecipePage">Test</button> -->
       <RecipePage class="recipe-page"/>
 
@@ -44,6 +45,8 @@ export default {
     return {
       recipesData: [],
       search: this.initialInput,
+      newRequest : null,
+      isNextPage: true
       //recipeClicked : "http://www.edamam.com/ontologies/edamam.owl#recipe_5cfd32ab67396a6249f599b2f53e6b57"
     }
   },
@@ -60,6 +63,17 @@ export default {
     selectOneRecipe(id) {
       console.log(id);
       this.$root.$emit("recipe-to-render", id);
+    },
+
+    async nextPage(){
+      this.newRequest = this.recipesData._links.next.href;
+      this.recipesData = await getRecipesData(this.newRequest);
+      console.log(this.recipesData);
+      if (typeof(this.recipesData._links.next) != "undefined") {
+        this.isNextPage = true;
+      } else {
+        this.isNextPage = false;
+      }
     }
 
 	}

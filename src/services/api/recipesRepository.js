@@ -1,5 +1,12 @@
 export async function getRecipesData(foodWanted) {
-    let request = "https://api.edamam.com/api/recipes/v2?type=public&q=" + foodWanted + "&app_id=a244ee5a&app_key=f8eca7e8bfaf220ba8c0b1785ee5a3ce";
+    var request;
+    console.log(foodWanted.length);
+    if (foodWanted.length <= 50) {
+        request = "https://api.edamam.com/api/recipes/v2?type=public&q=" + foodWanted + "&app_id=a244ee5a&app_key=f8eca7e8bfaf220ba8c0b1785ee5a3ce";
+    } else {
+        request = foodWanted;
+    }
+
     const response = await fetch(request)
     if (response.status == 200) {
         return response.json()

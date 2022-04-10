@@ -1,7 +1,9 @@
 <template>
   <div v-show="isRecipeSelected">
     <div class="picture" v-bind:style="{ 'background-image': 'url(' + recipePictureURL + ')' }">
-      <button @click="closeRecipe">Back</button>
+      <button id="back" @click="closeRecipe">
+        <div id="arrow"></div>
+      </button>
     </div>
 
     <div class="description">
@@ -25,8 +27,15 @@
         <h3>Ingredients</h3>
         <ul>
           <li v-for="ingredient in recipeData.recipe.ingredients"
-          :key="ingredient.foodId">{{ingredient.food}}</li>
+          :key="ingredient.foodId">{{ingredient.text}}</li>
         </ul>
+      </div>
+      <div>
+        <h3>Directions</h3>
+        <!-- <ol>
+          <li v-for="direction in recipeData.recipe.ingredients"
+          :key="ingredient.foodId">{{ingredient.food}}</li>
+        </ol> -->
       </div>
     </div>
   </div>
@@ -82,13 +91,41 @@ export default {
 </script>
 <style>
 
-  button{
-    background: yellow;
+  #back{
+    top: 2vh;
+    left: 2vh;
+    position: absolute;
+    background: #ffffff;
+    border-radius: 100%;
+    font-size: 2em;
+    font-family: Arial, Helvetica, sans-serif;
+    padding: 5px;
+    /* border: #42B96A 5px solid; */
+    border: none;
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;  
+  }
+
+  #arrow{
+    margin: 1vh;
+    margin-left: 1.25vh;
+    margin-right: 0.75vh;
+    height: 1vh;
+    width: 1vh;
+    border-width: 0px 0px 3px 3px;
+    border-color: #000000;
+    border-style: solid;
+    transform: rotate(45deg);
+    border-radius: 2px;
+  }
+
+  #back:hover{
+    box-shadow: rgb(203, 203, 203) 3px 0px 3px 0px inset;
   }
 
   .picture{
     background-color: chocolate;
     background-image: none;
+    position: relative;
   }
 
 @media screen and (max-width: 1023px) {
@@ -102,8 +139,8 @@ export default {
 
 .description{
   padding: 15px;
-  padding-left: 15%;
-  padding-right: 15%;
+  padding-left: 8%;
+  padding-right: 8%;
 }
 
 .container-icon{
@@ -122,18 +159,11 @@ export default {
   background-color: white;
   border-radius: 100%;
   padding: 12px;
-  height: 64px;
+  width: 8vw;
 }
 .container-ingredients{
   text-align: left;
   margin: auto;
-}
-
-.container-ingredients>h3::after{
-  content: "------------";
-  height: 100px;
-  width: 100px;
-  background-color: #42B96A;
 }
 
 </style>

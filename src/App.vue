@@ -3,7 +3,7 @@
     <div id="welcome">
       <img src="./assets/broccoli-vegetable.gif"/>
       <div id="text">
-        <h2>Hello !</h2>
+        <h1>Hello !</h1>
         <p>I’m Steev. I’m going to help you to meal prep ! But first in need some information about your life style.</p> 
         <p>Ready ? </p>
         <a href="#form" class="myButton">Let's go</a>
@@ -59,8 +59,12 @@ body{
   background-color: #FFFCEB;
 }
 
-h2{
+h1{
   font-size: 4em;
+}
+
+h2{
+  font-size: 2.5em;
 }
 
 #welcome{
