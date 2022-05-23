@@ -1,37 +1,37 @@
 <template>
   <div class="conteneur-form">
-    <form>
+    <form name="DietForm">
       <fieldset>
         <legend>As-tu un régime particulier ?</legend>
           <div id="responseConteneur">
             <div>
-              <input type="checkbox" id="balanced" name="diet" value="balanced">
+              <input @click="validation" type="checkbox" id="balanced" v-model="checkedDiets" name="diet" value="balanced">
               <label for="balanced">Balanced</label>
             </div>
             <div>
-              <input type="checkbox" id="hight-fiber" name="diet" value="hight-fiber">
-              <label for="hight-fiber">Hight fiber</label>
+              <input @click="validation" type="checkbox" id="high-fiber" v-model="checkedDiets" name="diet" value="high-fiber">
+              <label for="high-fiber">High fiber</label>
             </div>
             <div>
-              <input type="checkbox" id="hight-protein" name="diet" value="hight-protein">
-              <label for="hight-protein">Hight protéine</label>
+              <input @click="validation" type="checkbox" id="high-protein" v-model="checkedDiets" name="diet" value="high-protein">
+              <label for="high-protein">High protéine</label>
             </div>
             <div>
-              <input type="checkbox" id="low-carb" name="diet" value="low-carb">
+              <input type="checkbox" id="low-carb" v-model="checkedDiets" name="diet" value="low-carb">
               <label for="low-carb">Low-carb</label>
             </div>
             <div>
-              <input type="checkbox" id="low-fat" name="diet" value="low-fat">
+              <input type="checkbox" id="low-fat" v-model="checkedDiets" name="diet" value="low-fat">
               <label for="low-fat">Low-fat</label>
             </div>
           <div>
-        <input type="checkbox" id="low-sodium" name="diet" value="low-sodium">
+        <input type="checkbox" id="low-sodium" name="diet" v-model="checkedDiets" value="low-sodium">
         <label for="low-sodium">Low-Sodium</label>
       </div>
           </div>
-          <div>
-            <a href="recipes-gallery"><input type="submit" class="myButton" value="Envoyer le formulaire"></a>
-          </div>
+          <!-- <div>
+            <a href=""><input type="submit" class="myButton" value="Envoyer le formulaire"></a>
+          </div> -->
       </fieldset>
     </form>
     <img src="../assets/banana.png"/>
@@ -42,6 +42,18 @@
 export default {
   name: 'DietForm',
   props: {
+  },
+  data(){
+    return{
+      checkedDiets: []
+    }
+  },
+  methods: {
+    validation(){
+      //console.log(this.checkedDiets);
+      this.$root.$emit("diet-chosen", this.checkedDiets);
+      //e.preventDefault();
+    }
   }
 }
 </script>
