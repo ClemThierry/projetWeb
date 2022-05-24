@@ -3,7 +3,7 @@
     <div class="recipes-gallery">
       <div>
         <h3>Une envie particulière ?</h3>
-        <input type="text" v-model="search" placeholder="Search type of food" @change="retrieveRecipesData"/>
+        <input type="text" v-model="search" placeholder="Search type of food" @input="retrieveRecipesData"/>
         <label for="dog-sort">Trier par : </label>
 				<select v-model="recipesSortType" id="dog-sort" @input="retrieveRecipesData">
           <option value="AZName">Name de A à Z</option>
@@ -35,13 +35,10 @@
 		import {getRecipesData} from '../services/api/recipesRepository';
     import RecipePage from './RecipePage.vue';
 
-// console.log(getRecipesData("pizza"));
-
 export default {
   name: 'RecipeGallery',
   props:{
     initialInput: {type : String, default : "pizza"},
-
 },
   components: {
     RecipeCard,
@@ -52,19 +49,61 @@ export default {
   },
   computed: {
 		recipesOrganizedData: function() {
-      //const field = ["AZName", "ZAName"].includes(this.persoSortType) ? "label" : "calories";
-      //const comparator = (a, b) => a.recipe.colories.localeCompare(b.recipe.calories);
-
-      const reversed = ["ZAName", "ZACal"].includes(this.recipesSortType);
-
-      let computedData = this.recipesData;
-      //computedData.hits.sort(comparator);
-      if (reversed) {
-        computedData.hits.reverse();
-      }
-      //console.log(computedData.hits[0]);   //undifined pour 0 raison :(   
+      var computedData = this.recipesData;
       console.log(computedData);
-      return computedData;
+      if (this.recipesData.hits != undefined) {          
+        
+        switch (this.recipesSortType) {
+          case 'AZName':
+            computedData.hits = this.recipesData.hits.slice(0).sort((a, b) => {
+              if (a.recipe.label > b.recipe.label) {
+                return 1
+              }
+              if (b.recipe.label> a.recipe.label) {
+                return -1
+              }
+              return 0
+            })
+            break
+          case 'ZAName':
+            computedData.hits = this.recipesData.hits.slice(0).sort((a, b) => {
+              if (a.recipe.label> b.recipe.label) {
+                return -1
+              }
+              if (b.recipe.label> a.recipe.label) {
+                return 1
+              }
+              return 0
+            })
+            break
+          case 'AZCal':
+            computedData.hits = this.recipesData.hits.slice(0).sort((a, b) => {
+              if (a.recipe.calories > b.recipe.calories) {
+                return 1
+              }
+              if (b.recipe.calories > a.recipe.calories) {
+                return -1
+              }
+              return 0
+            })
+            break
+          case 'ZACal':
+            computedData.hits = this.recipesData.hits.slice(0).sort((a, b) => {
+              if (a.recipe.calories > b.recipe.calories) {
+                return -1
+              }
+              if (b.recipe.calories > a.recipe.calories) {
+                return 1
+              }
+              return 0
+            })
+            break
+          default:
+            break
+			}
+          console.log(computedData);
+      }
+      return computedData;     
 		}
   },
   data(){
@@ -74,8 +113,8 @@ export default {
       recipesSortType: "AZName",
       newRequest : null,
       isNextPage: true,
-      checkedDietsFromForm: []
-      //recipeClicked : "http://www.edamam.com/ontologies/edamam.owl#recipe_5cfd32ab67396a6249f599b2f53e6b57"
+      checkedDietsFromForm: [],
+      recipeClicked : "http://www.edamam.com/ontologies/edamam.owl#recipe_5cfd32ab67396a6249f599b2f53e6b57"
     }
 	},
   mounted(){
@@ -85,21 +124,21 @@ export default {
       this.checkedDietsFromForm = checkedDiets;
       this.retrieveRecipesData();
     })
-    //this.recipesData = this.recipesOrganizedData;
   },
 	methods: {
 		async retrieveRecipesData() {
 				this.recipesData = await getRecipesData(this.search, this.checkedDietsFromForm);
         //console.log(this.recipesData.hits[0].recipe.label);
         console.log(this.recipesData);
+        console.log(typeof this.recipesData);
 		},
     selectOneRecipe(id) {
-      //console.log(id);
+      console.log(id);
       this.$root.$emit("recipe-to-render", id);
     },
     async nextPage(){
       this.newRequest = this.recipesData._links.next.href;
-      this.recipesData = await getRecipesData(this.newRequest);
+      this.recipescomputedData = await getRecipesData(this.newRequest);
       console.log(this.recipesData);
       if (typeof(this.recipesData._links.next) != "undefined") {
         this.isNextPage = true;
