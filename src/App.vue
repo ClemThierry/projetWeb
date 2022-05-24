@@ -14,6 +14,8 @@
       </svg>
       </div>
     <!-- <HeaderNav/> -->
+    <FoodWantedForm/>
+    <HealthForm/>
     <DietForm id="form"/>
     <RecipeGallery id="recipes-gallery"/>
   </div>
@@ -21,8 +23,9 @@
 
 <script>
     import RecipeGallery from './components/RecipeGallery.vue';
-    // import HeaderNav from './components/HeaderNav.vue';
     import DietForm from './components/DietForm.vue';
+    import FoodWantedForm from './components/FoodWantedForm.vue';
+    import HealthForm from './components/HealthForm.vue';
 
 //getRecipesData();
 
@@ -33,6 +36,8 @@ export default {
     // HeaderNav,
     RecipeGallery,
     DietForm,
+    FoodWantedForm,
+    HealthForm
   },
 }
 

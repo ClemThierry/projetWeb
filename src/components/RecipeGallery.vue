@@ -1,11 +1,10 @@
 <template>
-
-    <div class="recipes-gallery">
+    <div class="recipes-gallery" v-if="!!this.foodWantedFromForm || this.checkedDietsFromForm.length != 0">
       <div>
-        <h3>Une envie particulière ?</h3>
-        <input type="text" v-model="search" placeholder="Search type of food" @input="retrieveRecipesData"/>
-        <label for="dog-sort">Trier par : </label>
-				<select v-model="recipesSortType" id="dog-sort" @input="retrieveRecipesData">
+        <!-- <h3>Une envie particulière ?</h3>
+        <input type="text" v-model="search" placeholder="Search type of food" @change="retrieveRecipesData"/> -->
+        <label for="recipe-sort">Trier par : </label>
+				<select v-model="recipesSortType" id="recipe-sort" @input="retrieveRecipesData">
           <option value="AZName">Name de A à Z</option>
           <option value="ZAName">Name de Z à A</option>
           <option value="AZCal">Calories max</option>
@@ -50,6 +49,8 @@ export default {
   computed: {
 		recipesOrganizedData: function() {
       var computedData = this.recipesData;
+      console.log(!this.foodWantedFromForm);
+      console.log(this.checkedDietsFromForm.length == 0);
       console.log(computedData);
       if (this.recipesData.hits != undefined) {          
         
@@ -76,7 +77,7 @@ export default {
               return 0
             })
             break
-          case 'AZCal':
+          case 'ZACal':
             computedData.hits = this.recipesData.hits.slice(0).sort((a, b) => {
               if (a.recipe.calories > b.recipe.calories) {
                 return 1
@@ -87,7 +88,7 @@ export default {
               return 0
             })
             break
-          case 'ZACal':
+          case 'AZCal':
             computedData.hits = this.recipesData.hits.slice(0).sort((a, b) => {
               if (a.recipe.calories > b.recipe.calories) {
                 return -1
@@ -109,11 +110,13 @@ export default {
   data(){
     return {
       recipesData: [],
-      search: this.initialInput,
+      //search: this.initialInput,
+      foodWantedFromForm : '',
       recipesSortType: "AZName",
       newRequest : null,
       isNextPage: true,
       checkedDietsFromForm: [],
+      checkedHealthFromForm: [],
       recipeClicked : "http://www.edamam.com/ontologies/edamam.owl#recipe_5cfd32ab67396a6249f599b2f53e6b57"
     }
 	},
@@ -123,11 +126,19 @@ export default {
       console.log(checkedDiets);
       this.checkedDietsFromForm = checkedDiets;
       this.retrieveRecipesData();
+    }),
+    this.$root.$on('food-chosen', (foodWanted) =>{
+      this.foodWantedFromForm = foodWanted;
+      this.retrieveRecipesData();
+    }),
+    this.$root.$on('healths-chosen', (checkedHealths) =>{
+      this.checkedHealthFromForm = checkedHealths;
+      this.retrieveRecipesData();
     })
   },
 	methods: {
 		async retrieveRecipesData() {
-				this.recipesData = await getRecipesData(this.search, this.checkedDietsFromForm);
+				this.recipesData = await getRecipesData(this.foodWantedFromForm, this.checkedDietsFromForm, this.checkedHealthFromForm);
         //console.log(this.recipesData.hits[0].recipe.label);
         console.log(this.recipesData);
         console.log(typeof this.recipesData);

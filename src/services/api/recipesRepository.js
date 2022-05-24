@@ -1,12 +1,18 @@
-export async function getRecipesData(foodWanted, diets) {
+export async function getRecipesData(foodWanted, diets, healths) {
     var request;
     console.log(foodWanted.length);
     if (foodWanted.length <= 50) {
         request = "https://api.edamam.com/api/recipes/v2?type=public&q=" + foodWanted + "&app_id=a244ee5a&app_key=f8eca7e8bfaf220ba8c0b1785ee5a3ce";
         if (!diets.lenght) {
-            diets.forEach(function(item) {
-                console.log(item);
-                request += "&diet=" + item;
+            diets.forEach(function(diet) {
+                console.log(diet);
+                request += "&diet=" + diet;
+            });
+        }
+
+        if (!healths.lenght) {
+            healths.forEach(function(health) {
+                request += "&health=" + health;
             });
         }
         console.log(request);
