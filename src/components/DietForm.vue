@@ -2,7 +2,7 @@
   <div class="conteneur-form">
     <form name="DietForm">
       <fieldset>
-        <legend>As-tu un régime particulier ?</legend>
+        <legend>Do you have a special diet?</legend>
           <div id="responseConteneur">
             <div>
               <input @change="validation" type="checkbox" id="balanced" v-model="checkedDiets" name="diet" value="balanced">

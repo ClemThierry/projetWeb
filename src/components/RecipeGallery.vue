@@ -1,20 +1,10 @@
 <template>
     <div class="recipes-gallery" v-if="!!this.foodWantedFromForm || this.checkedDietsFromForm.length != 0">
-      <div>
-        <!-- <h3>Une envie particulière ?</h3>
-        <input type="text" v-model="search" placeholder="Search type of food" @change="retrieveRecipesData"/> -->
-        <label for="recipe-sort">Trier par : </label>
-				<select v-model="recipesSortType" id="recipe-sort" @input="retrieveRecipesData">
-          <option value="AZName">Name de A à Z</option>
-          <option value="ZAName">Name de Z à A</option>
-          <option value="AZCal">Calories max</option>
-          <option value="ZACal">Calories min</option>
-				</select>
-      </div>
       <h2>Recipe Suggest</h2>
+      <GalleryOptions :search.sync="search" :recipesSortType.sync="recipesSortType"/>
       <div class="gallery">
         <RecipeCard 
-        v-for="recipes in recipesOrganizedData.hits"
+        v-for="recipes in recipesOrganizedData"
         :recipeId="recipes.recipe.uri"
         :label="recipes.recipe.label"
         :pictureUrl="recipes.recipe.image"
@@ -23,7 +13,7 @@
         @click.native="selectOneRecipe(recipes.recipe.uri)"
         />
       </div>
-      <button class="myButton" v-if="isNextPage" @click="nextPage">Next page</button>
+      <button class="myButton" v-if="isNextPage" @click="nextPage">Others suggest</button>
       <RecipePage class="recipe-page"/>
 
 		</div>
@@ -33,30 +23,30 @@
     import RecipeCard from './RecipeCard.vue';
 		import {getRecipesData} from '../services/api/recipesRepository';
     import RecipePage from './RecipePage.vue';
+    import GalleryOptions from './GalleryOptions.vue';
 
 export default {
   name: 'RecipeGallery',
   props:{
-    initialInput: {type : String, default : "pizza"},
-},
+  },
   components: {
     RecipeCard,
-    RecipePage
-},
+    RecipePage,
+    GalleryOptions
+  },
   created: function () {
     this.retrieveRecipesData()
   },
   computed: {
 		recipesOrganizedData: function() {
-      var computedData = this.recipesData;
-      console.log(!this.foodWantedFromForm);
-      console.log(this.checkedDietsFromForm.length == 0);
-      console.log(computedData);
-      if (this.recipesData.hits != undefined) {          
-        
+      let computedData = this.recipesData.hits.slice();
+      if (this.recipesData.hits != undefined) {
+        const filterFunc = (a) => a.recipe.label.toLowerCase().includes(this.search.toLowerCase());
+        computedData = computedData.filter(filterFunc);
+
         switch (this.recipesSortType) {
           case 'AZName':
-            computedData.hits = this.recipesData.hits.slice(0).sort((a, b) => {
+            computedData = computedData.sort((a, b) => {
               if (a.recipe.label > b.recipe.label) {
                 return 1
               }
@@ -67,7 +57,7 @@ export default {
             })
             break
           case 'ZAName':
-            computedData.hits = this.recipesData.hits.slice(0).sort((a, b) => {
+            computedData = computedData.sort((a, b) => {
               if (a.recipe.label> b.recipe.label) {
                 return -1
               }
@@ -78,7 +68,7 @@ export default {
             })
             break
           case 'ZACal':
-            computedData.hits = this.recipesData.hits.slice(0).sort((a, b) => {
+            computedData = computedData.sort((a, b) => {
               if (a.recipe.calories > b.recipe.calories) {
                 return 1
               }
@@ -89,7 +79,7 @@ export default {
             })
             break
           case 'AZCal':
-            computedData.hits = this.recipesData.hits.slice(0).sort((a, b) => {
+            computedData = computedData.sort((a, b) => {
               if (a.recipe.calories > b.recipe.calories) {
                 return -1
               }
@@ -102,28 +92,35 @@ export default {
           default:
             break
 			}
-          console.log(computedData);
       }
       return computedData;     
 		}
   },
+  watch: {
+		recipesData: function() {
+      console.log("j'ai testé t'as vu");
+      if (typeof(this.recipesData._links.next) != "undefined") {
+          this.isNextPage = true;
+      } else {
+          this.isNextPage = false;
+      }
+		}
+	},
   data(){
     return {
       recipesData: [],
-      //search: this.initialInput,
-      foodWantedFromForm : '',
-      recipesSortType: "AZName",
+      search: localStorage.getItem("search") || "",
+      foodWantedFromForm : localStorage.getItem("foodWantedFromForm") || "",
+      recipesSortType: localStorage.getItem("recipesSortType") || "AZName",
       newRequest : null,
       isNextPage: true,
-      checkedDietsFromForm: [],
-      checkedHealthFromForm: [],
+      checkedDietsFromForm: localStorage.getItem("checkedDietsFromForm") || [],
+      checkedHealthFromForm: localStorage.getItem("checkedHealthFromForm") || [],
       recipeClicked : "http://www.edamam.com/ontologies/edamam.owl#recipe_5cfd32ab67396a6249f599b2f53e6b57"
     }
 	},
   mounted(){
     this.$root.$on('diet-chosen', (checkedDiets) => {
-      console.log("Bien reçu bien reçu !");
-      console.log(checkedDiets);
       this.checkedDietsFromForm = checkedDiets;
       this.retrieveRecipesData();
     }),
@@ -139,9 +136,8 @@ export default {
 	methods: {
 		async retrieveRecipesData() {
 				this.recipesData = await getRecipesData(this.foodWantedFromForm, this.checkedDietsFromForm, this.checkedHealthFromForm);
-        //console.log(this.recipesData.hits[0].recipe.label);
+        this.$root.$emit("recipes-number", this.recipesData.count);
         console.log(this.recipesData);
-        console.log(typeof this.recipesData);
 		},
     selectOneRecipe(id) {
       console.log(id);
@@ -149,13 +145,7 @@ export default {
     },
     async nextPage(){
       this.newRequest = this.recipesData._links.next.href;
-      this.recipescomputedData = await getRecipesData(this.newRequest);
-      console.log(this.recipesData);
-      if (typeof(this.recipesData._links.next) != "undefined") {
-        this.isNextPage = true;
-      } else {
-        this.isNextPage = false;
-      }
+      this.recipesData = await getRecipesData(this.newRequest);
     }
 	}
 }

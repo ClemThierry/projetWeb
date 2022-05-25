@@ -19,7 +19,7 @@ export async function getRecipesData(foodWanted, diets, healths) {
     } else {
         request = foodWanted;
     }
-
+    console.log(request);
     const response = await fetch(request)
     if (response.status == 200) {
         return response.json()

@@ -1,5 +1,5 @@
 <template>
-  <div v-show="isRecipeSelected">
+  <div v-show="isRecipeSelected" v-if="recipeData.length != 0">
     <div class="picture" v-bind:style="{ 'background-image': 'url(' + recipePictureURL + ')' }">
       <button id="back" @click="closeRecipe">
         <div id="arrow"></div>

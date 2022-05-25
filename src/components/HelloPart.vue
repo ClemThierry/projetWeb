@@ -1,66 +1,32 @@
 <template>
-  <div id="app">
-    <HelloPart idToScrollAfter="#food-form"/>
-    <RecipesFound/>
-    <FoodWantedForm id="food-form" idToScrollAfter="#health-form"/>
-    <HealthForm id="health-form"/>
-    <DietForm id="diet-form"/>
-    <RecipeGallery id="recipes-gallery"/>
+  <div>
+    <div id="welcome">
+      <img src="../assets/broccoli-vegetable.gif"/>
+      <div id="text">
+        <h1>Hello !</h1>
+        <p>I’m Steev. I’m going to help you to meal prep ! But first in need some information about your life style.</p> 
+        <p>Ready ? </p>
+        <a v-bind:href="idToScrollAfter" class="myButton">Let's go</a>
+      </div>
+      <svg fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path id="green" d="M68.3215 -64.3708C-67.8008 43.0458 22.5817 198.582 159.312 299.719C321.963 420.029 204.743 537.071 401.114 666.276C597.485 795.481 1030.43 663.879 1117.16 539.907C1222.2 409.55 1147.65 298.643 1053.52 172.383C959.387 46.1224 1015.24 -81.6527 731.248 -168.708C524.379 -232.121 293.417 -241.998 68.3215 -64.3708Z"/>
+        <path id="yellow" d="M740.996 115.267C691.971 -44.2413 520.951 -17.2601 382.618 70.2333C218.061 174.313 153.822 28.4166 -30.4504 159.657C-214.723 290.897 -247.279 725.147 -166.21 846.094C-85.7835 985.697 39.6811 957.39 185.735 916.86C331.789 876.33 427.013 970.9 603.95 746.377C732.836 582.828 822.066 379.034 740.996 115.267Z"/>
+      </svg>
+      </div>
   </div>
 </template>
 
 <script>
-    import HelloPart from './components/HelloPart.vue';
-    import RecipesFound from './components/RecipesFound.vue';
-    import RecipeGallery from './components/RecipeGallery.vue';
-    import DietForm from './components/DietForm.vue';
-    import FoodWantedForm from './components/FoodWantedForm.vue';
-    import HealthForm from './components/HealthForm.vue';
-
 export default {
-  name: 'App',
-  props:[],
-  components: {
-    HelloPart,
-    RecipesFound,
-    RecipeGallery,
-    DietForm,
-    FoodWantedForm,
-    HealthForm
-  },
+  name: 'HelloPart',
+  props:{
+    idToScrollAfter : {type: String, required: true, default : "#"}
+  }
 }
-
-
 </script>
 
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Rancho&display=swap');
-*{
-  font-family: 'Rancho', cursive;
-  scroll-behavior: smooth;
-}
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin: 0;
-}
-
-body{
-  margin: 0;
-  background-color: #FFFCEB;
-}
-
-h1{
-  font-size: 4em;
-}
-
-h2{
-  font-size: 2.5em;
-}
-
 #welcome{
   /* background-color: #00ffff; */
   height: 100vh;

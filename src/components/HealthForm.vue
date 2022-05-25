@@ -3,7 +3,7 @@
     <img src="../assets/tacos.png"/>
     <form name="HealthForm">
       <fieldset>
-        <legend>As-tu des restrictions alimentaires ?</legend>
+        <legend>Do you have any dietary restrictions?</legend>
           <div id="responseConteneur">
             <div>
               <input @change="validation" type="checkbox" id="alcohol-cocktail" v-model="checkedHealth" name="diet" value="alcohol-cocktail">
@@ -30,11 +30,11 @@
               <label for="pork-free">pork-free</label>
             </div>
             <div>
-              <input @change="validation" type="checkbox" id="peanut-free" v-model="checkedDiets" name="diet" value="peanut-free">
+              <input @change="validation" type="checkbox" id="peanut-free" v-model="checkedHealth" name="diet" value="peanut-free">
               <label for="peanut-free">peanut-free</label>
             </div>
             <div>
-              <input @change="validation" type="checkbox" id="vegetarian" v-model="checkedDiets" name="diet" value="vegetarian">
+              <input @change="validation" type="checkbox" id="vegetarian" v-model="checkedHealth" name="diet" value="vegetarian">
               <label for="vegetarian">vegetarian</label>
             </div>
           </div>
