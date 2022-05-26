@@ -5,24 +5,23 @@
         <div id="arrow"></div>
       </button>
     </div>
-
     <div class="description">
       <h2> {{recipeData.recipe.label}} </h2>
-      <!-- <img v-bind:src="recipePictureURL" class="property-image" v-bind:alt="recipeData.recipe.label"> -->
       <div class="container-icon">
         <div class="icons">
           <img src="../assets/icons8-clock-64.png" alt="duration-icon"/>
           <p>{{recipeData.recipe.totalTime}} min</p>
         </div>
           <div class="icons">
-          <img src="../assets/icons8-fire-100.png" alt="calories-icon"/>
+          <img src="../assets/icons8-fire-64.png" alt="calories-icon"/>
           <p>{{recipeData.recipe.calories.toFixed(0)}} kcal</p>
         </div>
           <div class="icons">
-          <img src="../assets/icons8-weight-100.png" alt="weight-icon"/>
+          <img src="../assets/icons8-weight-64.png" alt="weight-icon"/>
           <p>{{recipeData.recipe.totalWeight.toFixed(0)}} g</p>
         </div>
       </div>
+      <img v-bind:src="recipePictureURL" class="property-image" v-bind:alt="recipeData.recipe.label">
       <div class="container-ingredients">
         <h3>Ingredients</h3>
         <ul>
@@ -30,12 +29,9 @@
           :key="ingredient.foodId">{{ingredient.text}}</li>
         </ul>
       </div>
-      <div>
+      <div class="directions">
         <h3>Directions</h3>
-        <!-- <ol>
-          <li v-for="direction in recipeData.recipe.ingredients"
-          :key="ingredient.foodId">{{ingredient.food}}</li>
-        </ol> -->
+        <p>If you want to do this recipe follow the link : <a v-bind:href="recipeData.recipe.url">{{recipeData.recipe.label}} directions</a></p>
       </div>
     </div>
   </div>
@@ -62,7 +58,6 @@ export default {
   },
   mounted(){
     this.$root.$on('recipe-to-render', (id) => {
-      console.log(id);
       this.recipeID = id;
       this.isRecipeSelected = true;
 
@@ -80,7 +75,6 @@ export default {
         }else{
           this.recipePictureURL = this.recipeData.recipe.images.REGULAR.url;
         }
-        console.log(this.recipeData.recipe);
     },
 
     closeRecipe: function () {
@@ -102,7 +96,7 @@ export default {
     padding: 5px;
     /* border: #42B96A 5px solid; */
     border: none;
-    box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;  
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 5px 5px;
   }
 
   #arrow{
@@ -128,6 +122,64 @@ export default {
     position: relative;
   }
 
+  .description{
+    padding: 15px;
+    padding-left: 8%;
+    padding-right: 8%;
+  }
+
+  .container-icon{
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  .icons{
+    background-color: #42B96A;
+    padding: 5px;
+    border-radius: 50px;
+    margin: auto;
+    max-width: 110px;
+  }
+
+  .icons>img{
+    background-color: #ffffff;
+    border-radius: 100%;
+    padding: 12px;
+    /* width: 8vw; */
+    object-fit: contain;
+  }
+  .container-ingredients{
+    text-align: left;
+    margin: auto;
+    padding: 20px;
+  }
+
+  h3{
+    font-size: 2em;
+  }
+
+  p, li{
+    font-size: 1.3em;
+  }
+
+  @media screen and (min-width: 1024px){
+    .property-image{
+      max-height: 40vh;
+      border-radius: 30px;
+      margin: 20px auto;
+    }
+    .description{
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      justify-content: center;
+      align-content: center;
+    }
+    h2, .container-icon, .directions{
+      grid-column: 1/span 2;
+    }
+
+  }
+
 @media screen and (max-width: 1023px) {
   .picture{
     min-height: 50vh;
@@ -135,35 +187,9 @@ export default {
     background-repeat: no-repeat; /* Do not repeat the image */
     background-size: cover;
   }
-}
-
-.description{
-  padding: 15px;
-  padding-left: 8%;
-  padding-right: 8%;
-}
-
-.container-icon{
-  display: flex;
-  flex-wrap: wrap;
-}
-
-.icons{
-  background-color: #42B96A;
-  padding: 5px;
-  border-radius: 50px;
-  margin: auto;
-}
-
-.icons>img{
-  background-color: white;
-  border-radius: 100%;
-  padding: 12px;
-  width: 8vw;
-}
-.container-ingredients{
-  text-align: left;
-  margin: auto;
+  .property-image{
+    display: none;
+  }
 }
 
 </style>

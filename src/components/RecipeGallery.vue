@@ -1,5 +1,5 @@
 <template>
-    <div class="recipes-gallery" v-if="!!this.foodWantedFromForm || this.checkedDietsFromForm.length != 0">
+    <div class="recipes-gallery" v-if="this.recipesData.count != 0">
       <h2>Recipe Suggest</h2>
       <GalleryOptions :search.sync="search" :recipesSortType.sync="recipesSortType"/>
       <div class="gallery">
@@ -13,7 +13,7 @@
         @click.native="selectOneRecipe(recipes.recipe.uri)"
         />
       </div>
-      <button class="myButton" v-if="isNextPage" @click="nextPage">Others suggest</button>
+      <button class="myButton" v-if="isOtherRecipes" @click="otherRecipes">Others suggest</button>
       <RecipePage class="recipe-page"/>
 
 		</div>
@@ -39,8 +39,9 @@ export default {
   },
   computed: {
 		recipesOrganizedData: function() {
-      let computedData = this.recipesData.hits.slice();
+      let computedData;
       if (this.recipesData.hits != undefined) {
+        computedData = this.recipesData.hits.slice();
         const filterFunc = (a) => a.recipe.label.toLowerCase().includes(this.search.toLowerCase());
         computedData = computedData.filter(filterFunc);
 
@@ -98,11 +99,10 @@ export default {
   },
   watch: {
 		recipesData: function() {
-      console.log("j'ai testé t'as vu");
       if (typeof(this.recipesData._links.next) != "undefined") {
-          this.isNextPage = true;
+          this.isOtherRecipes = true;
       } else {
-          this.isNextPage = false;
+          this.isOtherRecipes = false;
       }
 		}
 	},
@@ -113,7 +113,7 @@ export default {
       foodWantedFromForm : localStorage.getItem("foodWantedFromForm") || "",
       recipesSortType: localStorage.getItem("recipesSortType") || "AZName",
       newRequest : null,
-      isNextPage: true,
+      isOtherRecipes: true,
       checkedDietsFromForm: localStorage.getItem("checkedDietsFromForm") || [],
       checkedHealthFromForm: localStorage.getItem("checkedHealthFromForm") || [],
       recipeClicked : "http://www.edamam.com/ontologies/edamam.owl#recipe_5cfd32ab67396a6249f599b2f53e6b57"
@@ -137,20 +137,16 @@ export default {
 		async retrieveRecipesData() {
 				this.recipesData = await getRecipesData(this.foodWantedFromForm, this.checkedDietsFromForm, this.checkedHealthFromForm);
         this.$root.$emit("recipes-number", this.recipesData.count);
-        console.log(this.recipesData);
 		},
     selectOneRecipe(id) {
-      console.log(id);
       this.$root.$emit("recipe-to-render", id);
     },
-    async nextPage(){
+    async otherRecipes(){
       this.newRequest = this.recipesData._links.next.href;
       this.recipesData = await getRecipesData(this.newRequest);
     }
 	}
 }
-
-
 </script>
 
 <style>
@@ -173,23 +169,14 @@ export default {
 @media screen and (min-width: 768px) and (max-width: 1023px) {
   .gallery {
     grid-template-columns: 1fr 1fr 1fr;
-    background-color: lightgreen;
   }
 }
 
 @media screen and (max-width: 767px) {
   .gallery {
     grid-template-columns: 1fr;
-    background-color: lavender;
   }
 }
-
-input{
-  /* grid-column-start: 1; */
-  /* grid-column-end: span col4-start; */
-  /* grid-column: 1/6; */
-}
-
 
 .gallery > *{
   justify-self: center;
@@ -200,13 +187,15 @@ input{
 
 .recipe-page{
   position: absolute;
-  top: 0;
-  background-color: #FCE49C;
-  min-height: 90vh;
-  width: 80vw;
+  top: 30px;
+  /* min-height: 90vh; */
+  width: 70vw;
+  background: #FFFCEB;
   border-radius: 30px;
-  margin-left: 10vw;
+  margin-left: 15vw;
   transition-duration: 2s;
   overflow: hidden;
+  -webkit-box-shadow: 0px 10px 13px -7px #c7c7c7, 0px 10px 27px 9px #f3f2f2a6; 
+  box-shadow: 0px 10px 13px -7px #c7c7c7, 0px 10px 27px 9px #f3f2f2a6;
 }
 </style>

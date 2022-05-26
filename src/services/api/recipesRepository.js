@@ -1,11 +1,9 @@
 export async function getRecipesData(foodWanted, diets, healths) {
     var request;
-    console.log(foodWanted.length);
     if (foodWanted.length <= 50) {
         request = "https://api.edamam.com/api/recipes/v2?type=public&q=" + foodWanted + "&app_id=a244ee5a&app_key=f8eca7e8bfaf220ba8c0b1785ee5a3ce";
         if (!diets.lenght) {
             diets.forEach(function(diet) {
-                console.log(diet);
                 request += "&diet=" + diet;
             });
         }
@@ -15,11 +13,9 @@ export async function getRecipesData(foodWanted, diets, healths) {
                 request += "&health=" + health;
             });
         }
-        console.log(request);
     } else {
         request = foodWanted;
     }
-    console.log(request);
     const response = await fetch(request)
     if (response.status == 200) {
         return response.json()

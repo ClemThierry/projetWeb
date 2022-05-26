@@ -55,7 +55,6 @@ export default {
   },
   methods: {
     validation(){
-      console.log(this.checkedHealth);
       this.$root.$emit("healths-chosen", this.checkedHealth);
       //e.preventDefault();
     }

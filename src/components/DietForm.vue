@@ -47,15 +47,12 @@ export default {
   },
   methods: {
     validation(){
-      //console.log(this.checkedDiets);
       this.$root.$emit("diet-chosen", this.checkedDiets);
-      //e.preventDefault();
     }
   }
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 *{
   font-size: 1em;
