@@ -58,7 +58,6 @@ export default {
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 @media screen and (min-width: 881px) {
   .divWantedForm {

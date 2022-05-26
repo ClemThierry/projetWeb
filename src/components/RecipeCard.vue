@@ -4,15 +4,10 @@
 
     <div class="property-description">
       <h5> {{label}} </h5>
-      <!-- <p>Lorem Ipsum Dipsum hortata. Mixcall Horcho. Mixwell Chingo. More Bingo. Lorem Ipum doth be hard.</p> -->
       <p class="calories">{{roundCalories}} kcal</p>
     </div>
 
-      <p class="property-social-icons">
-        ->
-      </p>
-
-    <!-- <p class="calories">{{roundCalories}} kcal</p> -->
+      <p class="property-social-icons"> </p>
   </div>
 
 </template>
@@ -34,7 +29,6 @@ export default {
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 *
 {
@@ -85,15 +79,10 @@ p
 box-shadow: 0px 10px 13px -7px #c7c7c7, 0px 10px 27px 9px #f3f2f2a6;
 
 }
-/* ^-- The margin bottom is necessary for the drop shadow otherwise it gets clipped in certain cases. */
-
-/* Top Half of card, image. */
 
 .property-image
 {
-  /* height:6em;
-  width:14em;
-  padding:1em 2em; */
+
   min-width: 14em;
   position:Absolute;
   top:0;
@@ -101,12 +90,8 @@ box-shadow: 0px 10px 13px -7px #c7c7c7, 0px 10px 27px 9px #f3f2f2a6;
   -webkit-transition:all 0.4s cubic-bezier(0.645, 0.045, 0.355, 1);
   -o-transition:all 0.4s cubic-bezier(0.645, 0.045, 0.355, 1);
   transition:all 0.4s cubic-bezier(0.645, 0.045, 0.355, 1);
-  /* background-image:url('https://www.edamam.com/web-img/b4b/b4b3aead4d39f0871a1843aa313ab354.jpg');
-  background-size:cover;
-  background-repeat:no-repeat; */
-}
 
-/* Bottom Card Section */
+}
 
 .property-description
 {
@@ -123,8 +108,6 @@ box-shadow: 0px 10px 13px -7px #c7c7c7, 0px 10px 27px 9px #f3f2f2a6;
   text-align:center;
 }
 
-/* Social Icons */
-
 .property-social-icons
 {
   width:1em;
@@ -138,17 +121,12 @@ box-shadow: 0px 10px 13px -7px #c7c7c7, 0px 10px 27px 9px #f3f2f2a6;
   transition:all 0.4s cubic-bezier(0.645, 0.045, 0.355, 1);
 }
 
-/* Property Cards Hover States */
-
 .recipe-card:hover .property-description
 {
   height:0em;
   padding:0px 1em;
 }
-/* .recipe-card:hover .property-image
-{
-  height:18em;
-} */
+
 
 .recipe-card:hover .property-social-icons
 {

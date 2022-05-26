@@ -56,13 +56,11 @@ export default {
   methods: {
     validation(){
       this.$root.$emit("healths-chosen", this.checkedHealth);
-      //e.preventDefault();
     }
   }
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 *{
   font-size: 1em;
@@ -82,7 +80,6 @@ img{
   display: flex;
   flex-wrap: wrap;
   height: 100vh;
-  /* background-color: #42B96A; */
     background-color: #FCE49C;
 
 }
@@ -92,7 +89,6 @@ img{
 }
 
 form{
-  /* color: white; */
   font-size: 2em;
 }
 

@@ -43,11 +43,6 @@ import {getRecipesDataById} from "@/services/api/recipesRepository.js"
 
 export default {
   name: 'RecipePage',
-  props: {
-    //label : {type : String,  required: true},
-    //hachtags : {type : String},
-    // pictureUrl: {type: String, default:"https://www.edamam.com/web-img/b4b/b4b3aead4d39f0871a1843aa313ab354.jpg"}
-	},
   data(){
     return{
       recipeData: [],
@@ -94,7 +89,6 @@ export default {
     font-size: 2em;
     font-family: Arial, Helvetica, sans-serif;
     padding: 5px;
-    /* border: #42B96A 5px solid; */
     border: none;
     box-shadow: rgba(0, 0, 0, 0.25) 0px 5px 5px;
   }
@@ -145,7 +139,6 @@ export default {
     background-color: #ffffff;
     border-radius: 100%;
     padding: 12px;
-    /* width: 8vw; */
     object-fit: contain;
   }
   .container-ingredients{
@@ -183,8 +176,8 @@ export default {
 @media screen and (max-width: 1023px) {
   .picture{
     min-height: 50vh;
-    background-position: center; /* Center the image */
-    background-repeat: no-repeat; /* Do not repeat the image */
+    background-position: center; 
+    background-repeat: no-repeat; 
     background-size: cover;
   }
   .property-image{

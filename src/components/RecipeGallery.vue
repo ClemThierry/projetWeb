@@ -188,7 +188,6 @@ export default {
 .recipe-page{
   position: absolute;
   top: 30px;
-  /* min-height: 90vh; */
   width: 70vw;
   background: #FFFCEB;
   border-radius: 30px;

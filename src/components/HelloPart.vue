@@ -28,7 +28,6 @@ export default {
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Rancho&display=swap');
 #welcome{
-  /* background-color: #00ffff; */
   height: 100vh;
   display: flex;
   justify-content: center;
@@ -36,9 +35,6 @@ export default {
   overflow: hidden;
 }
 
-/* #welcome>*{
-  margin: auto;
-} */
 
 #welcome>img{
   height: 50vh;
@@ -53,15 +49,11 @@ export default {
   position: absolute;
   top: 20vh;
   right: 8vw;
-  /* background-color: #42B96A;
-  padding: 5%;
-  border-radius: 30px; */
+
 }
 
 svg{
   position: absolute;
-  /* left: 0;
-  right: 0; */
   width: 100vw;
   height: 100vh;
   z-index: -1;
